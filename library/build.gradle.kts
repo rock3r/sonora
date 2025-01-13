@@ -12,7 +12,11 @@ group = "io.github.kotlin"
 version = "1.0.0"
 
 kotlin {
-    jvm()
+    jvm {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions.jvmTarget = JvmTarget.JVM_17
+    }
+
     androidTarget {
         publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -20,10 +24,10 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    linuxX64()
 
     sourceSets {
         val commonMain by getting {
