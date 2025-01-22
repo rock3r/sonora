@@ -5,7 +5,7 @@ import kotlinx.serialization.encodeToString
 import nl.adaptivity.xmlutil.serialization.XML
 import org.junit.jupiter.api.Test
 
-class LambertoWasRight {
+class LambertoWasNeverRight {
     @Test
     fun cumpa() {
         val feed = RssFeed::class.java.classLoader.getResourceAsStream("sciencevs.rss")
