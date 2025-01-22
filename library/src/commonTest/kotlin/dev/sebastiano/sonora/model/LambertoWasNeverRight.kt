@@ -21,6 +21,6 @@ class LambertoWasNeverRight {
         }
         val lamberto = xml.decodeFromString<RssFeed>(coso)
         println(lamberto.toString())
-        println(xml.encodeToString(lamberto))
+//        println(xml.encodeToString(lamberto))
     }
 }
