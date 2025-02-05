@@ -26,15 +26,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
-//    androidTarget {
-//        publishLibraryVariants("release")
-//
-//        // Instrumented test variants should inherit from commonTest
-//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-//        instrumentedTestVariant {
-//            sourceSetTree = KotlinSourceSetTree.test
-//        }
-//    }
 
     sourceSets {
         commonMain {

@@ -26,6 +26,5 @@ class LambertoWasNeverRight {
             // TODO nested categories do not worky
             println("$it -> $marco")
         }
-//        println(xml.encodeToString(lamberto))
     }
 }

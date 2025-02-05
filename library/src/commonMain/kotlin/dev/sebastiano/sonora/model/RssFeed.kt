@@ -1,5 +1,6 @@
 package dev.sebastiano.sonora.model
 
+import dev.sebastiano.sonora.serialization.ItunesCategorySerializer
 import dev.sebastiano.sonora.serialization.LocaleSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
@@ -69,7 +70,7 @@ data class Channel(
 )
 
 @XmlSerialName(value = "category", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
-@Serializable
+@Serializable(ItunesCategorySerializer::class)
 data class ItunesCategory(
     val text: String? = null,
     @XmlElement val subcategory: ItunesSubcategory? = null,

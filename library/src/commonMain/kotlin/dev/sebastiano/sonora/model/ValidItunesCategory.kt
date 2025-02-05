@@ -201,7 +201,7 @@ sealed interface ValidItunesCategory {
 
                     is Nested -> {
                         if (category.subcategory != null) {
-                            if (marco.text == categoryText && marco.parent.text == category.subcategory.text) {
+                            if (marco.text == category.subcategory.text && marco.parent.text == categoryText) {
                                 return marco
                             }
                         }
@@ -210,11 +210,6 @@ sealed interface ValidItunesCategory {
             }
             return null
         }
-
-        // Extension function to ensure nested classes are final and objects
-        private fun KClass<*>.isFinalClass(): Boolean =
-            this.visibility == KVisibility.PUBLIC &&
-                this.objectInstance != null
 
         /** Category type for `Arts`. */
         val ARTS = Simple("Arts")
