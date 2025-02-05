@@ -15,12 +15,12 @@ class LocaleSerializer : KSerializer<Locale> {
         PrimitiveSerialDescriptor("java.util.Locale", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Locale) {
-        encoder.encodeString(value.toString())
+        encoder.encodeString(value.toLanguageTag())
     }
 
     override fun deserialize(decoder: Decoder): Locale {
         return try {
-            Locale.of(decoder.decodeString())
+            Locale.forLanguageTag(decoder.decodeString())
         } catch (e: Exception) {
             throw SerializationException("Invalid locale", e)
         }

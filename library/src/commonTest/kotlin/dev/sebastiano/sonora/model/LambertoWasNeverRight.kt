@@ -1,15 +1,15 @@
 package dev.sebastiano.sonora.model
 
+import dev.sebastiano.sonora.testutil.readBinaryResource
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import nl.adaptivity.xmlutil.serialization.XML
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 class LambertoWasNeverRight {
     @Test
     fun cumpa() {
-        val feed = RssFeed::class.java.classLoader.getResourceAsStream("sciencevs.rss")
-        val coso = feed!!.readBytes().decodeToString()
+        val feed = readBinaryResource("sciencevs.rss")
+        val coso = feed.decodeToString()
         val xml = XML {
             defaultPolicy {
                 ignoreUnknownChildren()

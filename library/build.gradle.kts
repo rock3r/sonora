@@ -20,11 +20,14 @@ kotlin {
         compilerOptions.jvmTarget = JvmTarget.JVM_17
     }
 
+    androidTarget {
+        publishAllLibraryVariants()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+    }
 //    androidTarget {
 //        publishLibraryVariants("release")
-//        compilerOptions {
-//            jvmTarget.set(JvmTarget.JVM_1_8)
-//        }
 //
 //        // Instrumented test variants should inherit from commonTest
 //        @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -101,3 +104,12 @@ mavenPublishing {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// TODO uncomment when you use iOS or use env variables
+//  - just Ask Marco or AI
+//tasks.register<Copy>("copyiOSTestResources") {
+//    from("src/commonTest/resources")
+//    into("build/bin/iosX64/debugTest/resources")
+//}
+//
+//tasks.findByName("iosX64Test")!!.dependsOn("copyiOSTestResources")
