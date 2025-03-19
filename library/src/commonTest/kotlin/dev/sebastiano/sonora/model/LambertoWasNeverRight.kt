@@ -23,7 +23,6 @@ class LambertoWasNeverRight {
         println(lamberto.toString())
         lamberto.channel.itunesCategories?.forEach {
             val marco = ValidItunesCategory.asValidItunesCategory(it)
-            // TODO nested categories do not worky
             println("$it -> $marco")
         }
     }
