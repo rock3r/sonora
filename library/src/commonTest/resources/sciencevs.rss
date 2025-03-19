@@ -34,6 +34,12 @@
     </itunes:category>
     <itunes:new-feed-url>https://feeds.megaphone.fm/sciencevs</itunes:new-feed-url>
     <item>
+      <psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">
+        <psc:chapter start="0" title="Welcome" />
+        <psc:chapter start="3:07" title="Introducing Podlove" href="http://podlove.org/" />
+        <psc:chapter start="8:26.250" title="Podlove WordPress Plugin" href="http://podlove.org/podlove-podcast-publisher" />
+        <psc:chapter start="12:42" title="Resumée" />
+      </psc:chapters>
       <title>Narcissists: Are We Surrounded?</title>
       <description>The internet tells us that narcissists are everywhere — and that the problem is only getting worse. It’s like narcissism is oozing out of our celebrities, politicians, partners, parents, maybe even ourselves?? So today, we’re taking a long look in the mirror to find out: are we all a bunch of narcissists? And what should we do if we think someone in our life is a narcissist? We find out by talking to a real narcissist, Lee Hammock of the social media platform “The Self Aware Narcissist” as well as psychologists Prof. W. Keith Campbell, Prof. Kali Trzesniewski, and Dr. Craig Malkin. 
 
