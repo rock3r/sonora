@@ -9,6 +9,7 @@ import dev.sebastiano.sonora.model.PodcastSoundbite
 import dev.sebastiano.sonora.model.PodcastTranscript
 import dev.sebastiano.sonora.model.RssFeed
 import org.jsoup.Jsoup
+import java.util.Locale
 
 /**
  * Validator for [RssFeed] that checks if an instance contains valid
@@ -192,11 +193,43 @@ import org.jsoup.Jsoup
         // Validate description and encodedDescription match
         validateDescriptionMatch(channel.description, channel.encodedDescription, "channel", messages)
 
-        // TODO: Junie, fill this in: we're missing validating these channel tags:
-        //  language (mandatory), atomLink (required), ttl (> 0), categories,
+        //  atomLink (required), ttl (> 0), categories,
         //  itunes owner, itunes image (required), itunes categories (required),
         //  media restrictions, spotify limit, spotify country of origin, podcast
         //  podroll, podcast persons, podcast location
+
+        if (channel.language == null) {
+            messages.add(
+                ValidationMessage(
+                    LambertoIsWrong.MISSING_LANGUAGE,
+                    "Channel language is missing",
+                    "channel.language",
+                    ValidationSeverity.ERROR,
+                )
+            )
+        } else {
+            val match = "^[a-z]{2}(_[a-z]{2})$".toRegex(RegexOption.IGNORE_CASE)
+                .matchEntire(channel.language.stripExtensions().toString())
+            when {
+                match == null -> messages.add(
+                    ValidationMessage(
+                        LambertoIsWrong.MALFORMED_LOCALE,
+                        "Malformed language format: ${channel.language}",
+                        "channel.language",
+                        ValidationSeverity.ERROR
+                    )
+                )
+
+                Locale.getISOLanguages().any { it.equals(match.groupValues[0], true) } ||
+                    Locale.getISOCountries().any { it.equals(match.groupValues[1], true) } ->
+                    ValidationMessage(
+                        LambertoIsWrong.INVALID_LOCALE_COMPONENTS,
+                        "The language contains non-ISO-639 components: ${channel.language}",
+                        "channel.language",
+                        ValidationSeverity.ERROR
+                    )
+            }
+        }
 
         // Validate podcast:locked
         channel.podcastLocked?.let { locked ->

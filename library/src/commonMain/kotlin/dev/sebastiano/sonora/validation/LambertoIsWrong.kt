@@ -54,4 +54,7 @@ enum class LambertoIsWrong {
 
     // Other stuff I don't know whatever
     EITHER_MEDIA_TITLE_OR_TITLE,
+    MISSING_LANGUAGE,
+    MALFORMED_LOCALE,
+    INVALID_LOCALE_COMPONENTS,
 }
