@@ -32,6 +32,7 @@ kotlin {
             dependencies {
                 api(libs.kotlinx.serialization.core)
                 api(libs.xmlutil)
+                implementation(libs.jsoup)
             }
         }
         commonTest {

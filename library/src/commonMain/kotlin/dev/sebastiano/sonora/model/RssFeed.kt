@@ -1,3 +1,5 @@
+@file:Suppress("HttpUrlsUsage")
+
 package dev.sebastiano.sonora.model
 
 import dev.sebastiano.sonora.serialization.ItunesCategorySerializer
@@ -32,13 +34,13 @@ data class RssFeed(
 @XmlSerialName(value = "channel")
 @Serializable
 data class Channel(
-    @XmlElement val title: String? = null,
+    @XmlElement val title: String? = null, // mandatory
     @XmlElement val atomLink: AtomLink? = null,
-    @XmlElement val description: String? = null,
+    @XmlElement val description: String? = null, // mandatory
     @XmlElement val pubDate: String? = null,
     @XmlElement val lastBuildDate: String? = null,
     @Serializable(LocaleSerializer::class)
-    @XmlElement val language: Locale? = null,
+    @XmlElement val language: Locale? = null, // mandatory
     @XmlElement val copyright: String? = null,
     @XmlElement val webMaster: String? = null,
     @XmlElement val generator: String? = null,
@@ -47,7 +49,7 @@ data class Channel(
     @XmlElement val categories: List<Category>? = null,
     @XmlElement
     @XmlSerialName(value = "explicit", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
-    val itunesExplicit: String? = null,
+    val itunesExplicit: String? = null, // mandatory
     @XmlElement
     @XmlSerialName(value = "block", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
     val itunesBlock: String? = null,
@@ -70,10 +72,10 @@ data class Channel(
     @XmlSerialName(value = "owner", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
     val itunesOwner: ItunesOwner? = null,
     @XmlSerialName(value = "image", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
-    val itunesImage: ItunesImage? = null,
+    val itunesImage: ItunesImage? = null, // mandatory
     @XmlElement
     @XmlSerialName(value = "category", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
-    val itunesCategories: List<ItunesCategory>? = null,
+    val itunesCategories: List<ItunesCategory>? = null, // mandatory
     @XmlElement
     @XmlSerialName(value = "new-feed-url", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
     val newFeedUrl: String? = null,
@@ -88,9 +90,9 @@ data class Channel(
     @XmlElement val mediaTitle: String? = null, // Mutually exclusive with the normal title
     @XmlElement val podcastPodroll: PodcastPodroll? = null,
     @XmlElement val podcastLocked: PodcastLocked? = null,
-    @XmlElement val podcastFunding: PodcastFunding? = null,
+    @XmlElement val podcastFunding: List<PodcastFunding>? = null,
     val podcastPersons: List<PodcastPerson>,
-    val podcastLocation: PodcastLocation,
+    val podcastLocation: PodcastLocation? = null,
 )
 
 @XmlSerialName(value = "category", namespace = "http://www.itunes.com/dtds/podcast-1.0.dtd", prefix = "itunes")
