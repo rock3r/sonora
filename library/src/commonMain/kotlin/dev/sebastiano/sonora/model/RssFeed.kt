@@ -35,7 +35,7 @@ data class RssFeed(
 @Serializable
 data class Channel(
     @XmlElement val title: String? = null, // mandatory
-    @XmlElement val atomLink: AtomLink? = null,
+    @XmlElement val atomLink: List<AtomLink> = emptyList(), // mandatory to have at least one
     @XmlElement val description: String? = null, // mandatory
     @XmlElement val pubDate: String? = null,
     @XmlElement val lastBuildDate: String? = null,
