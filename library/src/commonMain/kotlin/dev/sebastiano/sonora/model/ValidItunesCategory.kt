@@ -128,15 +128,13 @@ import kotlin.reflect.KVisibility
  * | TV & Film               | Film Reviews       | [FILM_REVIEWS]              |
  * | TV & Film               | TV Reviews         | [TV_REVIEWS]                |
  *
- * Use the [of][ItunesCategory.Factory.of] method to obtain an instance
+ * Use the [of][ValidItunesCategory.asValidItunesCategory] method to obtain an instance
  * from a string pattern.
  *
  * @property text The raw category `type` value.
  * @see Simple Subtype for simple categories.
  * @see Nested Subtype for categories that are nested in a [Simple]
  *    category.
- * @see Factory Companion object exposing references to all valid instances
- *    and a factory method.
  */
 @Serializable
 sealed interface ValidItunesCategory {

@@ -136,6 +136,107 @@ import java.util.Locale
     private fun validateChannel(channel: Channel): Set<ValidationMessage> {
         val messages = mutableSetOf<ValidationMessage>()
 
+        if (channel.atomLink == null) {
+            messages.add(
+                ValidationMessage(
+                    LambertoIsWrong.ATOM_LINK_REQUIRED,
+                    "atom:link is required",
+                    "channel.atomLink",
+                    ValidationSeverity.ERROR
+                )
+            )
+        } else {
+            // TODO validate atom link contents: check rel="self", href is not blank, and type is "application/rss+xml" (error)
+        }
+
+        channel.ttl?.let { ttl ->
+            if (ttl <= 0) {
+                messages.add(
+                    ValidationMessage(
+                        LambertoIsWrong.TTL_MUST_BE_POSITIVE,
+                        "TTL must be greater than 0",
+                        "channel.ttl",
+                        ValidationSeverity.ERROR
+                    )
+                )
+            }
+        }
+
+        channel.categories?.let {
+            // TODO validate category nodes are not blank (warning)
+            // TODO validate category nodes ar not duplicated (warning)
+        }
+
+
+        if (channel.itunesOwner == null) {
+            // TODO validate itunesOwner name and email are not blank (error)
+        }
+
+        if (channel.itunesImage == null) {
+            messages.add(
+                ValidationMessage(
+                    LambertoIsWrong.ITUNES_IMAGE_REQUIRED,
+                    "iTunes image is required",
+                    "channel.itunesImage",
+                    ValidationSeverity.ERROR
+                )
+            )
+        } else {
+            // TODO itunesImage href is not blank (error)
+        }
+
+        if (channel.itunesCategories.isNullOrEmpty()) {
+            messages.add(
+                ValidationMessage(
+                    LambertoIsWrong.ITUNES_CATEGORIES_REQUIRED,
+                    "At least one iTunes category is required",
+                    "channel.itunesCategories",
+                    ValidationSeverity.ERROR
+                )
+            )
+        } else {
+            // TODO validate the iTunes categories are one of the ValidItunesCategory (error)
+            // TODO if more than one iTunes category is present, warn only the first one counts (info)
+        }
+
+        channel.mediaRestrictions?.let { restrictions ->
+            // TODO validate the type is 'country', country is 'allow' and countries is a space separated
+            //  list of ISO 3166 country codes (warning)
+        }
+
+        channel.spotifyLimit?.let { limit ->
+            if (limit.recentCount == null) {
+                messages.add(
+                    ValidationMessage(
+                        LambertoIsWrong.SPOTIFY_LIMIT_MISSING_COUNT,
+                        "Spotify limit must be greater than 0",
+                        "channel.spotifyLimit",
+                        ValidationSeverity.WARNING
+                    )
+                )
+            } else if (limit.recentCount <= 0) {
+                messages.add(
+                    ValidationMessage(
+                        LambertoIsWrong.SPOTIFY_LIMIT_INVALID_COUNT,
+                        "Spotify limit must be greater than 0",
+                        "channel.spotifyLimit",
+                        ValidationSeverity.WARNING
+                    )
+                )
+            }
+        }
+
+        channel.spotifyCountryOfOrigin?.let {
+            // TODO validate country of origin has non-blank countries field, and that is a space
+            //  separated list of ISO 3166 country codes (warning)
+        }
+
+        // TODO validate that if there is a podroll, it is not empty, and all remote items are valid (warning)
+        // TODO validate that if there is a podcast persons node, it is not empty, and all entries are valid (warning)
+        // TODO validate that if there is a podcast location node, it is valid (warning)
+        // TODO validate that if there is a podcast season node, it is valid (warning)
+        // TODO validate that if there is a podcast episode node, it is valid (warning)
+
         if (channel.title.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
@@ -192,11 +293,6 @@ import java.util.Locale
 
         // Validate description and encodedDescription match
         validateDescriptionMatch(channel.description, channel.encodedDescription, "channel", messages)
-
-        //  atomLink (required), ttl (> 0), categories,
-        //  itunes owner, itunes image (required), itunes categories (required),
-        //  media restrictions, spotify limit, spotify country of origin, podcast
-        //  podroll, podcast persons, podcast location
 
         if (channel.language == null) {
             messages.add(

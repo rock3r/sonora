@@ -43,7 +43,8 @@ sealed interface RssFeedValidationResult {
  */
 enum class ValidationSeverity {
     ERROR,
-    WARNING
+    WARNING,
+    INFO
 }
 
 /**
