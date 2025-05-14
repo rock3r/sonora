@@ -413,12 +413,16 @@ internal object RssChannelValidator {
             )
         }
 
-        if (channel.description.isNullOrBlank()) {
+        if (
+            channel.description.isNullOrBlank() &&
+                channel.encodedDescription.isNullOrBlank() &&
+                channel.itunesSummary.isNullOrBlank()
+        ) {
             messages.add(
                 ValidationMessage(
                     ErrorMessages.CHANNEL_DESCRIPTION_REQUIRED,
                     "Channel description is required",
-                    "channel.description",
+                    "channel.description/itunesSummary/encodedDescription",
                     ValidationSeverity.ERROR,
                 )
             )

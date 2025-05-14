@@ -40,62 +40,37 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.ITEM_NO_ENCLOSURE,
                     "Item has no enclosure or media:content",
-                    "item[$itemIndex].enclosure/mediaContent",
+                    "item[$itemIndex].enclosure/media:content",
+                    ValidationSeverity.ERROR,
+                )
+            )
+        } else if (item.enclosure != null && item.mediaContent != null) {
+            messages.add(
+                ValidationMessage(
+                    ErrorMessages.ITEM_DOUBLE_ENCLOSURE,
+                    "Item has both enclosure and media:content, but should only have one",
+                    "item[$itemIndex].enclosure/media:content",
                     ValidationSeverity.WARNING,
                 )
             )
         }
 
+        // TODO: Validate field values are not blank and valid, if present:
+        //  item.comments, item.author (should be an email), item.itunesDuration (positive int, or 00:00 timestamp),
+        //  item.itunesBlock, item.mediaDescription, item.dcTermsValid, item.categories, item.pubDate, item.author,
+        //  item.itunesImage, item.itunesExplicit, item.itunesSubtitle, item.itunesSummary, item.itunesEpisode,
+        //  item.itunesSeason, item.itunesEpisodeType, item.link, item.itunesBlock, item.podcastSeason,
+        //  item.podcastEpisode, item.podcastPersons, item.source, item.podloveChapters, item.mediaContent,
+        //  item.mediaRestrictions, item.dcTermsValid
+
         // Validate non-blank strings
         validateNotBlank(item.title, "item[$itemIndex].title", "Title", messages)
-        validateNotBlank(item.description, "item[$itemIndex].description", "Description", messages)
-        validateNotBlank(item.link, "item[$itemIndex].link", "Link", messages)
-        validateNotBlank(item.comments, "item[$itemIndex].comments", "Comments", messages)
-        validateNotBlank(item.pubDate, "item[$itemIndex].pubDate", "Publication date", messages)
-        validateNotBlank(item.author, "item[$itemIndex].author", "Author", messages)
         validateNotBlank(
-            item.itunesAuthor,
-            "item[$itemIndex].itunesAuthor",
-            "iTunes author",
+            item.guid?.guid,
+            "item[$itemIndex].guid",
+            "GUID",
             messages,
-        )
-        validateNotBlank(
-            item.itunesDuration,
-            "item[$itemIndex].itunesDuration",
-            "iTunes duration",
-            messages,
-        )
-        validateNotBlank(item.itunesTitle, "item[$itemIndex].itunesTitle", "iTunes title", messages)
-        validateNotBlank(
-            item.itunesSubtitle,
-            "item[$itemIndex].itunesSubtitle",
-            "iTunes subtitle",
-            messages,
-        )
-        validateNotBlank(
-            item.itunesSummary,
-            "item[$itemIndex].itunesSummary",
-            "iTunes summary",
-            messages,
-        )
-        validateNotBlank(item.itunesBlock, "item[$itemIndex].itunesBlock", "iTunes block", messages)
-        validateNotBlank(
-            item.encodedDescription,
-            "item[$itemIndex].encodedDescription",
-            "Encoded description",
-            messages,
-        )
-        validateNotBlank(
-            item.mediaDescription,
-            "item[$itemIndex].mediaDescription",
-            "Media description",
-            messages,
-        )
-        validateNotBlank(
-            item.dcTermsValid,
-            "item[$itemIndex].dcTermsValid",
-            "DC terms valid",
-            messages,
+            severity = ValidationSeverity.ERROR,
         )
 
         // Validate description and encodedDescription match

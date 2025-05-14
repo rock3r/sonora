@@ -18,7 +18,8 @@ enum class ErrorMessages {
     ITEM_TITLE_REQUIRED,
     ITEM_NO_DESCRIPTION,
     ITEM_NO_ENCLOSURE,
-    
+    ITEM_DOUBLE_ENCLOSURE,
+
     // Podcast transcript validation
     PODCAST_TRANSCRIPT_URL_REQUIRED,
     PODCAST_TRANSCRIPT_TYPE_REQUIRED,
