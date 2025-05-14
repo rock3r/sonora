@@ -52,7 +52,7 @@ import java.util.Locale
         if (feed.version.isBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.RSS_VERSION_REQUIRED,
+                    ErrorMessages.RSS_VERSION_REQUIRED,
                     "RSS version is required",
                     "feed.version",
                     ValidationSeverity.ERROR
@@ -61,7 +61,7 @@ import java.util.Locale
         } else if (feed.version != "2.0") {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.RSS_VERSION_WRONG,
+                    ErrorMessages.RSS_VERSION_WRONG,
                     "RSS version is supposed to be '2.0', but it's '${feed.version}'",
                     "feed.version",
                     ValidationSeverity.WARNING
@@ -102,7 +102,7 @@ import java.util.Locale
             if (description != plainTextFromEncoded) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.DESCRIPTION_MISMATCH,
+                        ErrorMessages.DESCRIPTION_MISMATCH,
                         "Description and encoded description (HTML) don't match when comparing plain text",
                         path,
                         ValidationSeverity.WARNING
@@ -144,7 +144,7 @@ import java.util.Locale
         if (channel.atomLink.isEmpty()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ATOM_LINK_REQUIRED,
+                    ErrorMessages.ATOM_LINK_REQUIRED,
                     "At least the 'self' atom:link is required",
                     "channel.atomLink",
                     ValidationSeverity.ERROR
@@ -155,7 +155,7 @@ import java.util.Locale
             if (selfLinks == 0) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.ATOM_LINK_MISSING_SELF_LINK,
+                        ErrorMessages.ATOM_LINK_MISSING_SELF_LINK,
                         "Must have exactly one atom:link with rel=\"self\" and type=\"application/rss+xml\"",
                         "channel.atomLink",
                         ValidationSeverity.ERROR
@@ -164,7 +164,7 @@ import java.util.Locale
             } else if (selfLinks > 1) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.ATOM_LINK_MULTIPLE_SELF_LINKS,
+                        ErrorMessages.ATOM_LINK_MULTIPLE_SELF_LINKS,
                         "Must have only one atom:link with rel=\"self\" and type=\"application/rss+xml\"",
                         "channel.atomLink",
                         ValidationSeverity.ERROR
@@ -176,7 +176,7 @@ import java.util.Locale
                 if (link.href.isBlank()) {
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.FIELD_IS_BLANK,
+                            ErrorMessages.FIELD_IS_BLANK,
                             "atom:link href cannot be blank",
                             "channel.atomLink[$index].href",
                             ValidationSeverity.ERROR
@@ -190,7 +190,7 @@ import java.util.Locale
             if (ttl <= 0) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.TTL_MUST_BE_POSITIVE,
+                        ErrorMessages.TTL_MUST_BE_POSITIVE,
                         "TTL must be greater than 0",
                         "channel.ttl",
                         ValidationSeverity.ERROR
@@ -204,7 +204,7 @@ import java.util.Locale
                 if (category.name.isNullOrBlank()) {
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.FIELD_IS_BLANK,
+                            ErrorMessages.FIELD_IS_BLANK,
                             "Channel category cannot be blank",
                             "channel.categories[$index]",
                             ValidationSeverity.WARNING
@@ -219,7 +219,7 @@ import java.util.Locale
                 .onEach { (category, indices) ->
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.FIELD_IS_BLANK,
+                            ErrorMessages.FIELD_IS_BLANK,
                             "Channel category '$category' is duplicated",
                             "channel.categories[${indices.joinToString(",")}]",
                             ValidationSeverity.WARNING
@@ -231,7 +231,7 @@ import java.util.Locale
         if (channel.itunesOwner == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.FIELD_IS_BLANK,
+                    ErrorMessages.FIELD_IS_BLANK,
                     "iTunes owner is required",
                     "channel.itunesOwner",
                     ValidationSeverity.ERROR
@@ -241,7 +241,7 @@ import java.util.Locale
             if (channel.itunesOwner.name.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "iTunes owner name cannot be blank",
                         "channel.itunesOwner.name",
                         ValidationSeverity.ERROR
@@ -251,7 +251,7 @@ import java.util.Locale
             if (channel.itunesOwner.email.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "iTunes owner email cannot be blank",
                         "channel.itunesOwner.email",
                         ValidationSeverity.ERROR
@@ -263,7 +263,7 @@ import java.util.Locale
         if (channel.itunesImage == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ITUNES_IMAGE_REQUIRED,
+                    ErrorMessages.ITUNES_IMAGE_REQUIRED,
                     "iTunes image is required",
                     "channel.itunesImage",
                     ValidationSeverity.ERROR
@@ -273,7 +273,7 @@ import java.util.Locale
             if (channel.itunesImage.href.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "iTunes image href cannot be blank",
                         "channel.itunesImage.href",
                         ValidationSeverity.ERROR
@@ -285,7 +285,7 @@ import java.util.Locale
         if (channel.itunesCategories.isNullOrEmpty()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ITUNES_CATEGORIES_REQUIRED,
+                    ErrorMessages.ITUNES_CATEGORIES_REQUIRED,
                     "At least one iTunes category is required",
                     "channel.itunesCategories",
                     ValidationSeverity.ERROR
@@ -296,7 +296,7 @@ import java.util.Locale
                 if (ValidItunesCategory.asValidItunesCategory(category) == null) {
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.INVALID_ITUNES_CATEGORY,
+                            ErrorMessages.INVALID_ITUNES_CATEGORY,
                             "Invalid iTunes category: $category",
                             "channel.itunesCategories[$index]",
                             ValidationSeverity.ERROR
@@ -308,7 +308,7 @@ import java.util.Locale
             if (channel.itunesCategories.size > 1) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Multiple iTunes categories found. Only the first one will be used.",
                         "channel.itunesCategories",
                         ValidationSeverity.INFO
@@ -321,7 +321,7 @@ import java.util.Locale
             if (restrictions.type != "country") {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Media restriction type must be 'country'",
                         "channel.mediaRestrictions.type",
                         ValidationSeverity.WARNING
@@ -331,7 +331,7 @@ import java.util.Locale
             if (restrictions.country != "allow") {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Media restriction country must be 'allow'",
                         "channel.mediaRestrictions.relationship",
                         ValidationSeverity.WARNING
@@ -344,7 +344,7 @@ import java.util.Locale
                     if (country !in isoCountries) {
                         messages.add(
                             ValidationMessage(
-                                LambertoIsWrong.FIELD_IS_BLANK,
+                                ErrorMessages.FIELD_IS_BLANK,
                                 "Invalid ISO 3166 country code: $country",
                                 "channel.mediaRestrictions.countries",
                                 ValidationSeverity.WARNING
@@ -358,7 +358,7 @@ import java.util.Locale
             if (limit.recentCount == null) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.SPOTIFY_LIMIT_MISSING_COUNT,
+                        ErrorMessages.SPOTIFY_LIMIT_MISSING_COUNT,
                         "Spotify limit must be greater than 0",
                         "channel.spotifyLimit",
                         ValidationSeverity.WARNING
@@ -367,7 +367,7 @@ import java.util.Locale
             } else if (limit.recentCount <= 0) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.SPOTIFY_LIMIT_INVALID_COUNT,
+                        ErrorMessages.SPOTIFY_LIMIT_INVALID_COUNT,
                         "Spotify limit must be greater than 0",
                         "channel.spotifyLimit",
                         ValidationSeverity.WARNING
@@ -380,7 +380,7 @@ import java.util.Locale
             if (origin.countries.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Spotify country of origin countries cannot be blank",
                         "channel.spotifyCountryOfOrigin.countries",
                         ValidationSeverity.WARNING
@@ -391,7 +391,7 @@ import java.util.Locale
                     if (country !in isoCountries) {
                         messages.add(
                             ValidationMessage(
-                                LambertoIsWrong.FIELD_IS_BLANK,
+                                ErrorMessages.FIELD_IS_BLANK,
                                 "Invalid ISO 3166 country code: $country",
                                 "channel.spotifyCountryOfOrigin.countries",
                                 ValidationSeverity.WARNING
@@ -406,7 +406,7 @@ import java.util.Locale
             if (podroll.remoteItems.isEmpty()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Podroll cannot be empty",
                         "channel.podroll.remoteItems",
                         ValidationSeverity.WARNING
@@ -444,7 +444,7 @@ import java.util.Locale
             if (person.name != null && person.name.length > 128) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Person name exceeds recommended maximum length of 128 characters",
                         "channel.podcastPersons[$index].name",
                         ValidationSeverity.WARNING
@@ -455,7 +455,7 @@ import java.util.Locale
             if (person.role.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Role not specified, assuming 'host'",
                         "channel.podcastPersons[$index].role",
                         ValidationSeverity.INFO
@@ -465,8 +465,8 @@ import java.util.Locale
                 if (person.role.lowercase() !in Taxonomy.roles) {
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.FIELD_IS_BLANK,
-                            "Invalid person role value '${person.role}'. Must be one of: ${validGroups.joinToString()}",
+                            ErrorMessages.FIELD_IS_BLANK,
+                            "Invalid person role value '${person.role}'. Must be one of taxonomy items.",
                             "channel.podcastPersons[$index].role",
                             ValidationSeverity.WARNING
                         )
@@ -477,7 +477,7 @@ import java.util.Locale
             if (person.group.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.FIELD_IS_BLANK,
+                        ErrorMessages.FIELD_IS_BLANK,
                         "Group not specified, assuming 'cast'",
                         "channel.podcastPersons[$index].group",
                         ValidationSeverity.INFO
@@ -487,8 +487,8 @@ import java.util.Locale
                 if (person.group.lowercase() !in Taxonomy.groups) {
                     messages.add(
                         ValidationMessage(
-                            LambertoIsWrong.FIELD_IS_BLANK,
-                            "Invalid person group value '${person.group}'. Must be one of: ${validGroups.joinToString()}",
+                            ErrorMessages.FIELD_IS_BLANK,
+                            "Invalid person group value '${person.group}'. Must be one of: taxonomy items.",
                             "channel.podcastPersons[$index].group",
                             ValidationSeverity.WARNING
                         )
@@ -505,7 +505,7 @@ import java.util.Locale
         if (channel.title.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.CHANNEL_TITLE_REQUIRED,
+                    ErrorMessages.CHANNEL_TITLE_REQUIRED,
                     "Channel title is required",
                     "channel.title",
                     ValidationSeverity.ERROR
@@ -516,7 +516,7 @@ import java.util.Locale
         if (channel.description.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.CHANNEL_DESCRIPTION_REQUIRED,
+                    ErrorMessages.CHANNEL_DESCRIPTION_REQUIRED,
                     "Channel description is required",
                     "channel.description",
                     ValidationSeverity.ERROR
@@ -548,7 +548,7 @@ import java.util.Locale
         if (channel.mediaTitle != null && channel.title != null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.EITHER_MEDIA_TITLE_OR_TITLE,
+                    ErrorMessages.EITHER_MEDIA_TITLE_OR_TITLE,
                     "Either media:title or title should be used, not both",
                     "channel.mediaTitle/title",
                     ValidationSeverity.ERROR
@@ -562,7 +562,7 @@ import java.util.Locale
         if (channel.language == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.MISSING_LANGUAGE,
+                    ErrorMessages.MISSING_LANGUAGE,
                     "Channel language is missing",
                     "channel.language",
                     ValidationSeverity.ERROR,
@@ -574,7 +574,7 @@ import java.util.Locale
             when {
                 match == null -> messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.MALFORMED_LOCALE,
+                        ErrorMessages.MALFORMED_LOCALE,
                         "Malformed language format: ${channel.language}",
                         "channel.language",
                         ValidationSeverity.ERROR
@@ -584,7 +584,7 @@ import java.util.Locale
                 Locale.getISOLanguages().any { it.equals(match.groupValues[0], true) } ||
                     isoCountries.any { it.equals(match.groupValues[1], true) } ->
                     ValidationMessage(
-                        LambertoIsWrong.INVALID_LOCALE_COMPONENTS,
+                        ErrorMessages.INVALID_LOCALE_COMPONENTS,
                         "The language contains non-ISO-639 components: ${channel.language}",
                         "channel.language",
                         ValidationSeverity.ERROR
@@ -607,7 +607,7 @@ import java.util.Locale
             messages.addAll(validateItem(item))
         } ?: messages.add(
             ValidationMessage(
-                LambertoIsWrong.CHANNEL_NO_ITEMS, "Channel has no items", "channel.items", ValidationSeverity.WARNING
+                ErrorMessages.CHANNEL_NO_ITEMS, "Channel has no items", "channel.items", ValidationSeverity.WARNING
             )
         )
 
@@ -619,7 +619,7 @@ import java.util.Locale
         return when (value.lowercase()) {
             "true", "false" -> null
             else -> ValidationMessage(
-                LambertoIsWrong.APPLE_BOOLEANS, "$fieldName must be 'true' or 'false'", path, ValidationSeverity.ERROR
+                ErrorMessages.APPLE_BOOLEANS, "$fieldName must be 'true' or 'false'", path, ValidationSeverity.ERROR
             )
         }
     }
@@ -629,14 +629,14 @@ import java.util.Locale
         return when (value) {
             "Yes" -> null
             "yes" -> ValidationMessage(
-                LambertoIsWrong.APPLE_YES_CASING,
+                ErrorMessages.APPLE_YES_CASING,
                 "$fieldName's value is 'yes', but it should be 'Yes'",
                 path,
                 ValidationSeverity.WARNING
             )
 
             else -> ValidationMessage(
-                LambertoIsWrong.APPLE_YES_IS_THE_ONLY_ALLOWED_VALUE,
+                ErrorMessages.APPLE_YES_IS_THE_ONLY_ALLOWED_VALUE,
                 "$fieldName's value must be 'Yes' or be removed",
                 path,
                 ValidationSeverity.ERROR
@@ -649,7 +649,7 @@ import java.util.Locale
         return when (value.lowercase()) {
             "episodic", "serial" -> null
             else -> ValidationMessage(
-                LambertoIsWrong.APPLE_BOOLEANS,
+                ErrorMessages.APPLE_BOOLEANS,
                 "itunes:type must be 'episodic' or 'serial'",
                 "channel.itunesType",
                 ValidationSeverity.ERROR
@@ -663,7 +663,7 @@ import java.util.Locale
         if (item.title.isNullOrBlank() && item.itunesTitle.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ITEM_TITLE_REQUIRED,
+                    ErrorMessages.ITEM_TITLE_REQUIRED,
                     "Item title or iTunes title is required",
                     "item.title/itunesTitle",
                     ValidationSeverity.ERROR
@@ -674,7 +674,7 @@ import java.util.Locale
         if (item.description.isNullOrBlank() && item.itunesSummary.isNullOrBlank() && item.encodedDescription.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ITEM_NO_DESCRIPTION,
+                    ErrorMessages.ITEM_NO_DESCRIPTION,
                     "Item has no description",
                     "item.description/itunesSummary/encodedDescription",
                     ValidationSeverity.WARNING
@@ -685,7 +685,7 @@ import java.util.Locale
         if (item.enclosure == null && item.mediaContent == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.ITEM_NO_ENCLOSURE,
+                    ErrorMessages.ITEM_NO_ENCLOSURE,
                     "Item has no enclosure or media:content",
                     "item.enclosure/mediaContent",
                     ValidationSeverity.WARNING
@@ -740,7 +740,7 @@ import java.util.Locale
         if (transcript.url.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_TRANSCRIPT_URL_REQUIRED,
+                    ErrorMessages.PODCAST_TRANSCRIPT_URL_REQUIRED,
                     "Podcast transcript URL is required",
                     "$path.url",
                     ValidationSeverity.ERROR
@@ -751,7 +751,7 @@ import java.util.Locale
         if (transcript.type.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_TRANSCRIPT_TYPE_REQUIRED,
+                    ErrorMessages.PODCAST_TRANSCRIPT_TYPE_REQUIRED,
                     "Podcast transcript type (MIME type) is required",
                     "$path.type",
                     ValidationSeverity.ERROR
@@ -776,7 +776,7 @@ import java.util.Locale
         if (chapters.url.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_CHAPTERS_URL_REQUIRED,
+                    ErrorMessages.PODCAST_CHAPTERS_URL_REQUIRED,
                     "Podcast chapters URL is required",
                     "$path.url",
                     ValidationSeverity.ERROR
@@ -787,7 +787,7 @@ import java.util.Locale
         if (chapters.type.isNullOrBlank()) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_CHAPTERS_TYPE_REQUIRED,
+                    ErrorMessages.PODCAST_CHAPTERS_TYPE_REQUIRED,
                     "Podcast chapters type (MIME type) is required",
                     "$path.type",
                     ValidationSeverity.ERROR
@@ -811,7 +811,7 @@ import java.util.Locale
             locked.locked.isNullOrBlank() -> {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.PODCAST_LOCKED_VALUE_REQUIRED,
+                        ErrorMessages.PODCAST_LOCKED_VALUE_REQUIRED,
                         "Podcast locked value is required (yes or no)",
                         "channel.locked",
                         ValidationSeverity.ERROR
@@ -822,7 +822,7 @@ import java.util.Locale
             locked.locked != "yes" && locked.locked != "no" -> {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.PODCAST_LOCKED_VALUE_INVALID,
+                        ErrorMessages.PODCAST_LOCKED_VALUE_INVALID,
                         "Podcast locked value must be 'yes' or 'no'",
                         "channel.locked",
                         ValidationSeverity.ERROR
@@ -846,7 +846,7 @@ import java.util.Locale
             if (funding.fundingSource.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.PODCAST_FUNDING_SOURCE_REQUIRED,
+                        ErrorMessages.PODCAST_FUNDING_SOURCE_REQUIRED,
                         "Podcast funding source value is required",
                         "channel.podcastFunding[$i].fundingSource",
                         ValidationSeverity.ERROR
@@ -855,7 +855,7 @@ import java.util.Locale
             } else if (funding.fundingSource.length > 128) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.PODCAST_FUNDING_SOURCE_TOO_LONG,
+                        ErrorMessages.PODCAST_FUNDING_SOURCE_TOO_LONG,
                         "Podcast funding source exceeds recommended maximum length of 128 characters",
                         "channel.podcastFunding[$i].fundingSource",
                         ValidationSeverity.WARNING
@@ -866,7 +866,7 @@ import java.util.Locale
             if (funding.url.isNullOrBlank()) {
                 messages.add(
                     ValidationMessage(
-                        LambertoIsWrong.PODCAST_FUNDING_URL_REQUIRED,
+                        ErrorMessages.PODCAST_FUNDING_URL_REQUIRED,
                         "Podcast funding URL is required",
                         "channel.podcastFunding[$i].url",
                         ValidationSeverity.ERROR
@@ -886,7 +886,7 @@ import java.util.Locale
         if (soundbite.startTime == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_SOUNDBITE_START_TIME_REQUIRED,
+                    ErrorMessages.PODCAST_SOUNDBITE_START_TIME_REQUIRED,
                     "Podcast soundbite start time is required",
                     "$path.startTime",
                     ValidationSeverity.ERROR
@@ -897,7 +897,7 @@ import java.util.Locale
         if (soundbite.duration == null) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_SOUNDBITE_DURATION_REQUIRED,
+                    ErrorMessages.PODCAST_SOUNDBITE_DURATION_REQUIRED,
                     "Podcast soundbite duration is required",
                     "$path.duration",
                     ValidationSeverity.ERROR
@@ -908,7 +908,7 @@ import java.util.Locale
         if (soundbite.fundingSource != null && soundbite.fundingSource.length > 128) {
             messages.add(
                 ValidationMessage(
-                    LambertoIsWrong.PODCAST_SOUNDBITE_SOURCE_TOO_LONG,
+                    ErrorMessages.PODCAST_SOUNDBITE_SOURCE_TOO_LONG,
                     "Podcast soundbite funding source exceeds recommended maximum length of 128 characters",
                     "$path.fundingSource",
                     ValidationSeverity.WARNING

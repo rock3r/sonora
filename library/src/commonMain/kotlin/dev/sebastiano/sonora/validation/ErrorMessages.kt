@@ -4,7 +4,7 @@ package dev.sebastiano.sonora.validation
  * Enum containing all possible validation message IDs.
  * Each ID is unique per kind of validation message found by the validator.
  */
-enum class LambertoIsWrong {
+enum class ErrorMessages {
     // RSS feed validation
     RSS_VERSION_REQUIRED,
     RSS_VERSION_WRONG,
@@ -51,6 +51,21 @@ enum class LambertoIsWrong {
     APPLE_BOOLEANS,
     APPLE_YES_CASING,
     APPLE_YES_IS_THE_ONLY_ALLOWED_VALUE,
+    ITUNES_IMAGE_REQUIRED,
+    ITUNES_CATEGORIES_REQUIRED,
+    INVALID_ITUNES_CATEGORY,
+
+    // Spotify tags
+    SPOTIFY_LIMIT_MISSING_COUNT,
+    SPOTIFY_LIMIT_INVALID_COUNT,
+
+    // Atom issues
+    ATOM_LINK_REQUIRED,
+    ATOM_LINK_MISSING_SELF_LINK,
+    ATOM_LINK_MULTIPLE_SELF_LINKS,
+
+    // Other tags
+    TTL_MUST_BE_POSITIVE,
 
     // Other stuff I don't know whatever
     EITHER_MEDIA_TITLE_OR_TITLE,

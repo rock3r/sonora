@@ -56,7 +56,7 @@ enum class ValidationSeverity {
  * @property severity The severity level of the validation message.
  */
 data class ValidationMessage(
-    val id: LambertoIsWrong,
+    val id: ErrorMessages,
     val message: String,
     val path: String,
     val severity: ValidationSeverity,
@@ -64,7 +64,7 @@ data class ValidationMessage(
     companion object {
         /**
          * Factory function for creating a ValidationMessage with a default ID.
-         * Uses [LambertoIsWrong.FIELD_IS_BLANK] as a default ID.
+         * Uses [ErrorMessages.FIELD_IS_BLANK] as a default ID.
          *
          * @param message The validation message.
          * @param path The path to the field that caused the validation message.
@@ -76,6 +76,6 @@ data class ValidationMessage(
             message: String,
             path: String,
             severity: ValidationSeverity
-        ): ValidationMessage = ValidationMessage(LambertoIsWrong.FIELD_IS_BLANK, message, path, severity)
+        ): ValidationMessage = ValidationMessage(ErrorMessages.FIELD_IS_BLANK, message, path, severity)
     }
 }
