@@ -14,7 +14,7 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.ITEM_TITLE_REQUIRED,
                     "Item title or iTunes title is required",
-                    "item.title/itunesTitle",
+                    "item[$itemIndex].title/itunesTitle",
                     ValidationSeverity.ERROR,
                 )
             )
@@ -29,7 +29,7 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.ITEM_NO_DESCRIPTION,
                     "Item has no description",
-                    "item.description/itunesSummary/encodedDescription",
+                    "item[$itemIndex].description/itunesSummary/encodedDescription",
                     ValidationSeverity.WARNING,
                 )
             )
@@ -40,55 +40,87 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.ITEM_NO_ENCLOSURE,
                     "Item has no enclosure or media:content",
-                    "item.enclosure/mediaContent",
+                    "item[$itemIndex].enclosure/mediaContent",
                     ValidationSeverity.WARNING,
                 )
             )
         }
 
         // Validate non-blank strings
-        validateNotBlank(item.title, "item.title", "Title", messages)
-        validateNotBlank(item.description, "item.description", "Description", messages)
-        validateNotBlank(item.link, "item.link", "Link", messages)
-        validateNotBlank(item.comments, "item.comments", "Comments", messages)
-        validateNotBlank(item.pubDate, "item.pubDate", "Publication date", messages)
-        validateNotBlank(item.author, "item.author", "Author", messages)
-        validateNotBlank(item.itunesAuthor, "item.itunesAuthor", "iTunes author", messages)
-        validateNotBlank(item.itunesDuration, "item.itunesDuration", "iTunes duration", messages)
-        validateNotBlank(item.itunesTitle, "item.itunesTitle", "iTunes title", messages)
-        validateNotBlank(item.itunesSubtitle, "item.itunesSubtitle", "iTunes subtitle", messages)
-        validateNotBlank(item.itunesSummary, "item.itunesSummary", "iTunes summary", messages)
-        validateNotBlank(item.itunesBlock, "item.itunesBlock", "iTunes block", messages)
+        validateNotBlank(item.title, "item[$itemIndex].title", "Title", messages)
+        validateNotBlank(item.description, "item[$itemIndex].description", "Description", messages)
+        validateNotBlank(item.link, "item[$itemIndex].link", "Link", messages)
+        validateNotBlank(item.comments, "item[$itemIndex].comments", "Comments", messages)
+        validateNotBlank(item.pubDate, "item[$itemIndex].pubDate", "Publication date", messages)
+        validateNotBlank(item.author, "item[$itemIndex].author", "Author", messages)
+        validateNotBlank(
+            item.itunesAuthor,
+            "item[$itemIndex].itunesAuthor",
+            "iTunes author",
+            messages,
+        )
+        validateNotBlank(
+            item.itunesDuration,
+            "item[$itemIndex].itunesDuration",
+            "iTunes duration",
+            messages,
+        )
+        validateNotBlank(item.itunesTitle, "item[$itemIndex].itunesTitle", "iTunes title", messages)
+        validateNotBlank(
+            item.itunesSubtitle,
+            "item[$itemIndex].itunesSubtitle",
+            "iTunes subtitle",
+            messages,
+        )
+        validateNotBlank(
+            item.itunesSummary,
+            "item[$itemIndex].itunesSummary",
+            "iTunes summary",
+            messages,
+        )
+        validateNotBlank(item.itunesBlock, "item[$itemIndex].itunesBlock", "iTunes block", messages)
         validateNotBlank(
             item.encodedDescription,
-            "item.encodedDescription",
+            "item[$itemIndex].encodedDescription",
             "Encoded description",
             messages,
         )
         validateNotBlank(
             item.mediaDescription,
-            "item.mediaDescription",
+            "item[$itemIndex].mediaDescription",
             "Media description",
             messages,
         )
-        validateNotBlank(item.dcTermsValid, "item.dcTermsValid", "DC terms valid", messages)
+        validateNotBlank(
+            item.dcTermsValid,
+            "item[$itemIndex].dcTermsValid",
+            "DC terms valid",
+            messages,
+        )
 
         // Validate description and encodedDescription match
-        validateDescriptionMatch(item.description, item.encodedDescription, "item", messages)
+        validateDescriptionMatch(
+            item.description,
+            item.encodedDescription,
+            "item[$itemIndex]",
+            messages,
+        )
 
         // Validate podcast:transcript
         item.podcastTranscript?.let { transcript ->
-            messages.addAll(validatePodcastTranscript(transcript))
+            messages.addAll(validatePodcastTranscript(transcript, itemIndex))
         }
 
         // Validate podcast:chapters
         item.podcastChapters?.let { chapters ->
-            messages.addAll(validatePodcastChapters(chapters, "item.podcastChapters"))
+            messages.addAll(validatePodcastChapters(chapters, "item[$itemIndex].podcastChapters"))
         }
 
         // Validate podcast:soundbite
         item.podcastSoundbite?.let { soundbite ->
-            messages.addAll(validatePodcastSoundbite(soundbite, "item.podcastSoundbite"))
+            messages.addAll(
+                validatePodcastSoundbite(soundbite, "item[$itemIndex].podcastSoundbite")
+            )
         }
 
         return messages
@@ -96,6 +128,7 @@ internal object RssItemValidator {
 
     private fun validatePodcastTranscript(
         transcript: PodcastTranscript,
+        itemIndex: Int,
     ): Set<ValidationMessage> {
         val messages = mutableSetOf<ValidationMessage>()
 
@@ -104,7 +137,7 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.PODCAST_TRANSCRIPT_URL_REQUIRED,
                     "Podcast transcript URL is required",
-                    "item.podcastTranscript.url",
+                    "item[$itemIndex].podcastTranscript.url",
                     ValidationSeverity.ERROR,
                 )
             )
@@ -115,16 +148,21 @@ internal object RssItemValidator {
                 ValidationMessage(
                     ErrorMessages.PODCAST_TRANSCRIPT_TYPE_REQUIRED,
                     "Podcast transcript type (MIME type) is required",
-                    " \"item.podcastTranscript\".type",
+                    " \"item[$itemIndex].podcastTranscript\".type",
                     ValidationSeverity.ERROR,
                 )
             )
         }
 
         // Validate non-blank strings
-        validateNotBlank(transcript.url, "item.podcastTranscript.url", "URL", messages)
-        validateNotBlank(transcript.type, "item.podcastTranscript.type", "Type", messages)
-        validateNotBlank(transcript.rel, "item.podcastTranscript.rel", "Rel", messages)
+        validateNotBlank(transcript.url, "item[$itemIndex].podcastTranscript.url", "URL", messages)
+        validateNotBlank(
+            transcript.type,
+            "item[$itemIndex].podcastTranscript.type",
+            "Type",
+            messages,
+        )
+        validateNotBlank(transcript.rel, "item[$itemIndex].podcastTranscript.rel", "Rel", messages)
 
         return messages
     }
